@@ -9,7 +9,7 @@ clean:
 	goimports -w $(files)
 
 test: clean
-	go test
+	go test -v 2>&1 ./...
 
 lint:
 	golint -set_exit_status
