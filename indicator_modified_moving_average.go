@@ -20,17 +20,22 @@ func NewMMAIndicator(indicator Indicator, window int) Indicator {
 }
 
 func (mma *modifiedMovingAverageIndicator) Calculate(index int) big.Decimal {
-	if cachedValue := returnIfCached(mma, index, func(i int) big.Decimal {
-		return NewSimpleMovingAverage(mma.indicator, mma.window).Calculate(i)
-	}); cachedValue != nil {
-		return *cachedValue
+	/*
+		if cachedValue := returnIfCached(mma, index, func(i int) big.Decimal {
+			return NewSimpleMovingAverage(mma.indicator, mma.window).Calculate(i)
+		}); cachedValue != nil {
+			return *cachedValue
+		}
+	*/
+	if index < mma.window-1 {
+		return big.ZERO
 	}
 
 	todayVal := mma.indicator.Calculate(index)
 	lastVal := mma.Calculate(index - 1)
 
 	result := lastVal.Add(big.NewDecimal(1.0 / float64(mma.window)).Mul(todayVal.Sub(lastVal)))
-	cacheResult(mma, index, result)
+	//cacheResult(mma, index, result)
 
 	return result
 }
