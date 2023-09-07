@@ -4,7 +4,7 @@ import "testing"
 
 func TestAroonUpIndicator(t *testing.T) {
 	t.Run("with < window periods", func(t *testing.T) {
-		series := NewTimeSeries()
+		series := NewBaseTimeSeries()
 		indicator := NewHighPriceIndicator(series)
 
 		aroonUp := NewAroonUpIndicator(indicator, 10)
@@ -25,7 +25,7 @@ func TestAroonUpIndicator(t *testing.T) {
 
 func TestAroonDownIndicator(t *testing.T) {
 	t.Run("with < window periods", func(t *testing.T) {
-		series := NewTimeSeries()
+		series := NewBaseTimeSeries()
 		indicator := NewHighPriceIndicator(series)
 
 		aroonUp := NewAroonDownIndicator(indicator, 10)

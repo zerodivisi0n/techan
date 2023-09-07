@@ -10,14 +10,14 @@ import (
 
 func TestTimeSeries_AddCandle(t *testing.T) {
 	t.Run("Throws if nil candle passed", func(t *testing.T) {
-		ts := NewTimeSeries()
+		ts := NewBaseTimeSeries()
 		assert.Panics(t, func() {
 			ts.AddCandle(nil)
 		})
 	})
 
 	t.Run("Adds candle if last is nil", func(t *testing.T) {
-		ts := NewTimeSeries()
+		ts := NewBaseTimeSeries()
 
 		candle := NewCandle(NewTimePeriod(time.Now(), time.Minute))
 		candle.ClosePrice = big.NewDecimal(1)
@@ -28,7 +28,7 @@ func TestTimeSeries_AddCandle(t *testing.T) {
 	})
 
 	t.Run("Does not add candle if before last candle", func(t *testing.T) {
-		ts := NewTimeSeries()
+		ts := NewBaseTimeSeries()
 
 		now := time.Now()
 		candle := NewCandle(NewTimePeriod(now, time.Minute))
@@ -48,7 +48,7 @@ func TestTimeSeries_AddCandle(t *testing.T) {
 }
 
 func TestTimeSeries_LastCandle(t *testing.T) {
-	ts := NewTimeSeries()
+	ts := NewBaseTimeSeries()
 
 	now := time.Now()
 	candle := NewCandle(NewTimePeriod(now, time.Minute))
@@ -56,8 +56,8 @@ func TestTimeSeries_LastCandle(t *testing.T) {
 
 	ts.AddCandle(candle)
 
-	assert.EqualValues(t, now.UnixNano(), ts.LastCandle().Period.Start.UnixNano())
-	assert.EqualValues(t, 1, ts.LastCandle().ClosePrice.Float())
+	assert.EqualValues(t, now.UnixNano(), ts.Candles[ts.LastIndex()].Period.Start.UnixNano())
+	assert.EqualValues(t, 1, ts.Candles[ts.LastIndex()].ClosePrice.Float())
 
 	next := time.Now().Add(time.Minute)
 	newCandle := NewCandle(NewTimePeriod(next, time.Minute))
@@ -67,12 +67,12 @@ func TestTimeSeries_LastCandle(t *testing.T) {
 
 	assert.Len(t, ts.Candles, 2)
 
-	assert.EqualValues(t, next.UnixNano(), ts.LastCandle().Period.Start.UnixNano())
-	assert.EqualValues(t, 2, ts.LastCandle().ClosePrice.Float())
+	assert.EqualValues(t, next.UnixNano(), ts.Candles[ts.LastIndex()].Period.Start.UnixNano())
+	assert.EqualValues(t, 2, ts.Candles[ts.LastIndex()].ClosePrice.Float())
 }
 
 func TestTimeSeries_LastIndex(t *testing.T) {
-	ts := NewTimeSeries()
+	ts := NewBaseTimeSeries()
 
 	candle := NewCandle(NewTimePeriod(time.Now(), time.Minute))
 	ts.AddCandle(candle)

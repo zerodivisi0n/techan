@@ -9,11 +9,11 @@ import (
 )
 
 func TestNewVolumeIndicator(t *testing.T) {
-	assert.NotNil(t, NewVolumeIndicator(NewTimeSeries()))
+	assert.NotNil(t, NewVolumeIndicator(NewBaseTimeSeries()))
 }
 
 func TestVolumeIndicator_Calculate(t *testing.T) {
-	series := NewTimeSeries()
+	series := NewBaseTimeSeries()
 
 	candle := NewCandle(TimePeriod{
 		Start: time.Now(),
@@ -28,7 +28,7 @@ func TestVolumeIndicator_Calculate(t *testing.T) {
 }
 
 func TestTypicalPriceIndicator_Calculate(t *testing.T) {
-	series := NewTimeSeries()
+	series := NewBaseTimeSeries()
 
 	candle := NewCandle(TimePeriod{
 		Start: time.Now(),

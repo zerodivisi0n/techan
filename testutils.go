@@ -20,7 +20,7 @@ var mockedTimeSeries = mockTimeSeriesFl(
 	63.91, 63.85, 62.95,
 	63.37, 61.33, 61.51)
 
-func randomTimeSeries(size int) *TimeSeries {
+func randomTimeSeries(size int) TimeSeries {
 	vals := make([]string, size)
 	rand.Seed(time.Now().Unix())
 	for i := 0; i < size; i++ {
@@ -40,8 +40,8 @@ func randomTimeSeries(size int) *TimeSeries {
 	return mockTimeSeries(vals...)
 }
 
-func mockTimeSeriesOCHL(values ...[]float64) *TimeSeries {
-	ts := NewTimeSeries()
+func mockTimeSeriesOCHL(values ...[]float64) TimeSeries {
+	ts := NewBaseTimeSeries()
 	for i, ochl := range values {
 		candle := NewCandle(NewTimePeriod(time.Unix(int64(i), 0), time.Second))
 		candle.OpenPrice = big.NewDecimal(ochl[0])
@@ -56,8 +56,8 @@ func mockTimeSeriesOCHL(values ...[]float64) *TimeSeries {
 	return ts
 }
 
-func mockTimeSeries(values ...string) *TimeSeries {
-	ts := NewTimeSeries()
+func mockTimeSeries(values ...string) TimeSeries {
+	ts := NewBaseTimeSeries()
 	for _, val := range values {
 		candle := NewCandle(NewTimePeriod(time.Unix(int64(candleIndex), 0), time.Second))
 		candle.OpenPrice = big.NewFromString(val)
@@ -74,7 +74,7 @@ func mockTimeSeries(values ...string) *TimeSeries {
 	return ts
 }
 
-func mockTimeSeriesFl(values ...float64) *TimeSeries {
+func mockTimeSeriesFl(values ...float64) TimeSeries {
 	strVals := make([]string, len(values))
 
 	for i, val := range values {

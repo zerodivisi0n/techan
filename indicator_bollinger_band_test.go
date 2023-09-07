@@ -110,7 +110,7 @@ func TestBollingerBandIndicator(t *testing.T) {
 	bbUP := NewBollingerUpperBandIndicator(src, window, sigma)
 	bbLO := NewBollingerLowerBandIndicator(src, window, sigma)
 
-	for i := window - 1; i < len(ts.Candles); i++ {
+	for i := window - 1; i <= ts.LastIndex(); i++ {
 		j := i - (window - 1)
 		decimalAlmostEquals(t, big.NewFromString(SMAs[j]), sma.Calculate(i), 0.01)
 		decimalAlmostEquals(t, big.NewFromString(STDEVs[j]), wstd.Calculate(i), 0.01)

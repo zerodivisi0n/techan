@@ -11,7 +11,9 @@ type keltnerChannelIndicator struct {
 	window int
 }
 
-func NewKeltnerChannelUpperIndicator(series *TimeSeries, window int) Indicator {
+// NewKeltnerChannelUpperIndicator returns Indicator which represents Keltner Channel Upper Band for the given window.
+// https://www.investopedia.com/terms/k/keltnerchannel.asp
+func NewKeltnerChannelUpperIndicator(series TimeSeries, window int) Indicator {
 	return keltnerChannelIndicator{
 		atr:    NewAverageTrueRangeIndicator(series, window),
 		ema:    NewEMAIndicator(NewClosePriceIndicator(series), window),
@@ -20,7 +22,9 @@ func NewKeltnerChannelUpperIndicator(series *TimeSeries, window int) Indicator {
 	}
 }
 
-func NewKeltnerChannelLowerIndicator(series *TimeSeries, window int) Indicator {
+// NewKeltnerChannelLowerIndicator returns Indicator which represents Keltner Channel Lower Band for the given window.
+// https://www.investopedia.com/terms/k/keltnerchannel.asp
+func NewKeltnerChannelLowerIndicator(series TimeSeries, window int) Indicator {
 	return keltnerChannelIndicator{
 		atr:    NewAverageTrueRangeIndicator(series, window),
 		ema:    NewEMAIndicator(NewClosePriceIndicator(series), window),

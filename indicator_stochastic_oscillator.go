@@ -16,7 +16,7 @@ type kIndicator struct {
 // NewFastStochasticIndicator returns a derivative Indicator which returns the fast stochastic indicator (%K) for the
 // given window.
 // https://www.investopedia.com/terms/s/stochasticoscillator.asp
-func NewFastStochasticIndicator(series *TimeSeries, timeframe int) Indicator {
+func NewFastStochasticIndicator(series TimeSeries, timeframe int) Indicator {
 	return kIndicator{
 		closePrice: NewClosePriceIndicator(series),
 		minValue:   NewMinimumValueIndicator(NewLowPriceIndicator(series), timeframe),
