@@ -22,16 +22,22 @@ func NewEMAIndicator(indicator Indicator, window int) Indicator {
 }
 
 func (ema *emaIndicator) Calculate(index int) big.Decimal {
-	if cachedValue := returnIfCached(ema, index, func(i int) big.Decimal {
+	return ema.calculate(index, false)
+}
+
+func (ema *emaIndicator) calculate(index int, allowCache bool) big.Decimal {
+	if cachedValue := returnIfCached(ema, index, allowCache, func(i int) big.Decimal {
 		return NewSimpleMovingAverage(ema.indicator, ema.window).Calculate(i)
 	}); cachedValue != nil {
 		return *cachedValue
 	}
 
 	todayVal := ema.indicator.Calculate(index).Mul(ema.alpha)
-	result := todayVal.Add(ema.Calculate(index - 1).Mul(big.ONE.Sub(ema.alpha)))
+	result := todayVal.Add(ema.calculate(index-1, true).Mul(big.ONE.Sub(ema.alpha)))
 
-	cacheResult(ema, index, result)
+	if allowCache {
+		cacheResult(ema, index, result)
+	}
 
 	return result
 }
