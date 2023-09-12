@@ -34,12 +34,15 @@ func (gli gainLossIndicator) Calculate(index int) big.Decimal {
 		return big.ZERO
 	}
 
-	delta := gli.indicator.Calculate(index).Sub(gli.indicator.Calculate(index - 1)).Mul(gli.coefficient)
-	if delta.GT(big.ZERO) {
-		return delta
+	curValue := gli.indicator.Calculate(index)
+	prevValue := gli.indicator.Calculate(index - 1)
+	// gain: curValue < prevValue
+	// loss: curValue > prevValue
+	if curValue.LT(prevValue) == gli.coefficient.GT(big.ZERO) {
+		return big.ZERO
 	}
 
-	return big.ZERO
+	return curValue.Sub(prevValue).Mul(gli.coefficient)
 }
 
 func (gli gainLossIndicator) LastIndex() int {

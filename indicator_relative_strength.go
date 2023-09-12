@@ -69,7 +69,7 @@ func (rs relativeStrengthIndicator) Calculate(index int) big.Decimal {
 	avgGain := rs.avgGain.Calculate(index)
 	avgLoss := rs.avgLoss.Calculate(index)
 
-	if avgLoss.EQ(big.ZERO) {
+	if avgLoss.IsZero() {
 		return big.NewDecimal(math.Inf(1))
 	}
 
