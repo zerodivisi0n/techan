@@ -19,13 +19,17 @@ var _ TimeSeries = indicatorTimeSeries{}
 
 // NewIndicatorTimeSeries returns a new time series with given indicator
 func NewIndicatorTimeSeries(ts TimeSeries, indicatorCtor func(indicator Indicator) Indicator) TimeSeries {
+	return NewIndicatorTimeSeriesWithProxy(DefaultProxy, ts, indicatorCtor)
+}
+
+func NewIndicatorTimeSeriesWithProxy(proxy IndicatorProxy, ts TimeSeries, indicatorCtor func(indicator Indicator) Indicator) TimeSeries {
 	return indicatorTimeSeries{
 		ts:         ts,
-		openPrice:  indicatorCtor(NewOpenPriceIndicator(ts)),
-		closePrice: indicatorCtor(NewClosePriceIndicator(ts)),
-		highPrice:  indicatorCtor(NewHighPriceIndicator(ts)),
-		lowPrice:   indicatorCtor(NewLowPriceIndicator(ts)),
-		volume:     indicatorCtor(NewVolumeIndicator(ts)),
+		openPrice:  proxy(indicatorCtor(NewOpenPriceIndicator(ts))),
+		closePrice: proxy(indicatorCtor(NewClosePriceIndicator(ts))),
+		highPrice:  proxy(indicatorCtor(NewHighPriceIndicator(ts))),
+		lowPrice:   proxy(indicatorCtor(NewLowPriceIndicator(ts))),
+		volume:     proxy(indicatorCtor(NewVolumeIndicator(ts))),
 	}
 }
 
