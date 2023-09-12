@@ -2,6 +2,7 @@ package techan
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/sdcoffey/big"
 )
@@ -22,7 +23,7 @@ type maximumValueIndicator struct {
 }
 
 func (mvi maximumValueIndicator) Calculate(index int) big.Decimal {
-	maxValue := big.NewFromString("-Inf")
+	maxValue := big.NewDecimal(math.Inf(-1))
 
 	start := 0
 	if mvi.window > 0 {

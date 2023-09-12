@@ -2,6 +2,7 @@ package techan
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/sdcoffey/big"
 )
@@ -22,7 +23,7 @@ type minimumValueIndicator struct {
 }
 
 func (mvi minimumValueIndicator) Calculate(index int) big.Decimal {
-	minValue := big.NewFromString("Inf")
+	minValue := big.NewDecimal(math.Inf(1))
 
 	start := 0
 	if mvi.window > 0 {
