@@ -34,7 +34,9 @@ func (mma *modifiedMovingAverageIndicator) Calculate(index int) big.Decimal {
 	lastVal := mma.Calculate(index - 1)
 
 	result := lastVal.Add(big.NewDecimal(1.0 / float64(mma.window)).Mul(todayVal.Sub(lastVal)))
-	cacheResult(mma, index, result)
+	if index != mma.indicator.LastIndex() {
+		cacheResult(mma, index, result)
+	}
 
 	return result
 }

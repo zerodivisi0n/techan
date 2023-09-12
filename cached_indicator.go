@@ -1,6 +1,8 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"github.com/sdcoffey/big"
+)
 
 type resultCache []*big.Decimal
 
@@ -38,7 +40,9 @@ func returnIfCached(indicator cachedIndicator, index int, firstValueFallback fun
 		return val
 	} else if index == indicator.windowSize()-1 {
 		value := firstValueFallback(index)
-		cacheResult(indicator, index, value)
+		if index != indicator.LastIndex() {
+			cacheResult(indicator, index, value)
+		}
 		return &value
 	}
 
