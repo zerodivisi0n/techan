@@ -34,3 +34,7 @@ func (mvi minimumValueIndicator) Calculate(index int) big.Decimal {
 
 	return minValue
 }
+
+func (mvi minimumValueIndicator) LastIndex() int {
+	return mvi.indicator.LastIndex()
+}

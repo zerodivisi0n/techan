@@ -32,6 +32,10 @@ func (tli trendLineIndicator) Calculate(index int) big.Decimal {
 	return ab.Div(cd)
 }
 
+func (tli trendLineIndicator) LastIndex() int {
+	return tli.indicator.LastIndex()
+}
+
 func sumX(decimals []big.Decimal) (s big.Decimal) {
 	s = big.ZERO
 

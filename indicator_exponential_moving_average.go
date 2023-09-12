@@ -36,6 +36,10 @@ func (ema *emaIndicator) Calculate(index int) big.Decimal {
 	return result
 }
 
+func (ema emaIndicator) LastIndex() int {
+	return ema.indicator.LastIndex()
+}
+
 func (ema emaIndicator) cache() resultCache { return ema.resultCache }
 
 func (ema *emaIndicator) setCache(newCache resultCache) {

@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"math"
+
+	"github.com/sdcoffey/big"
+)
 
 type constantIndicator float64
 
@@ -12,4 +16,8 @@ func NewConstantIndicator(constant float64) Indicator {
 
 func (ci constantIndicator) Calculate(index int) big.Decimal {
 	return big.NewDecimal(float64(ci))
+}
+
+func (ci constantIndicator) LastIndex() int {
+	return math.MaxInt
 }

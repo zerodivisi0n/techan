@@ -3,16 +3,16 @@ package techan
 import "github.com/sdcoffey/big"
 
 type averageIndicator struct {
-	Indicator
-	window int
+	indicator Indicator
+	window    int
 }
 
 // NewAverageGainsIndicator Returns a new average gains indicator, which returns the average gains
 // in the given window based on the given indicator.
 func NewAverageGainsIndicator(indicator Indicator, window int) Indicator {
 	return averageIndicator{
-		NewCumulativeGainsIndicator(indicator, window),
-		window,
+		indicator: NewCumulativeGainsIndicator(indicator, window),
+		window:    window,
 	}
 }
 
@@ -20,11 +20,15 @@ func NewAverageGainsIndicator(indicator Indicator, window int) Indicator {
 // in the given window based on the given indicator.
 func NewAverageLossesIndicator(indicator Indicator, window int) Indicator {
 	return averageIndicator{
-		NewCumulativeLossesIndicator(indicator, window),
-		window,
+		indicator: NewCumulativeLossesIndicator(indicator, window),
+		window:    window,
 	}
 }
 
 func (ai averageIndicator) Calculate(index int) big.Decimal {
-	return ai.Indicator.Calculate(index).Div(big.NewDecimal(float64(Min(index+1, ai.window))))
+	return ai.indicator.Calculate(index).Div(big.NewDecimal(float64(Min(index+1, ai.window))))
+}
+
+func (ai averageIndicator) LastIndex() int {
+	return ai.indicator.LastIndex()
 }

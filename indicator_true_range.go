@@ -27,3 +27,7 @@ func (tri trueRangeIndicator) Calculate(index int) big.Decimal {
 
 	return trueHigh.Sub(trueLow)
 }
+
+func (tri trueRangeIndicator) LastIndex() int {
+	return tri.series.LastIndex()
+}

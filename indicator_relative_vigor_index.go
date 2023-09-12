@@ -42,6 +42,10 @@ func (rvii relativeVigorIndexIndicator) Calculate(index int) big.Decimal {
 	return num.Div(denom)
 }
 
+func (rvii relativeVigorIndexIndicator) LastIndex() int {
+	return rvii.numerator.LastIndex()
+}
+
 type relativeVigorIndexSignalLine struct {
 	relativeVigorIndex Indicator
 }
@@ -65,4 +69,8 @@ func (rvsn relativeVigorIndexSignalLine) Calculate(index int) big.Decimal {
 	k := rvsn.relativeVigorIndex.Calculate(index - 3)
 
 	return (rvi.Add(i).Add(j).Add(k)).Div(big.NewFromString("6"))
+}
+
+func (rvsn relativeVigorIndexSignalLine) LastIndex() int {
+	return rvsn.relativeVigorIndex.LastIndex()
 }

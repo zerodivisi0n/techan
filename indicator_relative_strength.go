@@ -27,6 +27,10 @@ func (rsi relativeStrengthIndexIndicator) Calculate(index int) big.Decimal {
 	return rsi.oneHundred.Sub(rsi.oneHundred.Div(big.ONE.Add(relativeStrength)))
 }
 
+func (rsi relativeStrengthIndexIndicator) LastIndex() int {
+	return rsi.rsIndicator.LastIndex()
+}
+
 type relativeStrengthIndicator struct {
 	avgGain Indicator
 	avgLoss Indicator
@@ -57,4 +61,8 @@ func (rs relativeStrengthIndicator) Calculate(index int) big.Decimal {
 	}
 
 	return avgGain.Div(avgLoss)
+}
+
+func (rs relativeStrengthIndicator) LastIndex() int {
+	return rs.avgGain.LastIndex()
 }

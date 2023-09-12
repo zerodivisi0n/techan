@@ -34,3 +34,7 @@ func (mvi maximumValueIndicator) Calculate(index int) big.Decimal {
 
 	return maxValue
 }
+
+func (mvi maximumValueIndicator) LastIndex() int {
+	return mvi.indicator.LastIndex()
+}

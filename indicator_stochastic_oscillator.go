@@ -37,6 +37,10 @@ func (k kIndicator) Calculate(index int) big.Decimal {
 	return closeVal.Sub(minVal).Div(maxVal.Sub(minVal)).Mul(big.NewDecimal(100))
 }
 
+func (k kIndicator) LastIndex() int {
+	return k.closePrice.LastIndex()
+}
+
 type dIndicator struct {
 	k      Indicator
 	window int
@@ -51,4 +55,8 @@ func NewSlowStochasticIndicator(k Indicator, window int) Indicator {
 
 func (d dIndicator) Calculate(index int) big.Decimal {
 	return NewSimpleMovingAverage(d.k, d.window).Calculate(index)
+}
+
+func (d dIndicator) LastIndex() int {
+	return d.k.LastIndex()
 }

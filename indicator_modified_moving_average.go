@@ -35,6 +35,10 @@ func (mma *modifiedMovingAverageIndicator) Calculate(index int) big.Decimal {
 	return result
 }
 
+func (mma modifiedMovingAverageIndicator) LastIndex() int {
+	return mma.indicator.LastIndex()
+}
+
 func (mma modifiedMovingAverageIndicator) cache() resultCache {
 	return mma.resultCache
 }

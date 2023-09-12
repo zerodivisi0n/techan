@@ -42,3 +42,7 @@ func (kci keltnerChannelIndicator) Calculate(index int) big.Decimal {
 
 	return kci.ema.Calculate(index).Add(kci.atr.Calculate(index).Mul(coefficient))
 }
+
+func (kci keltnerChannelIndicator) LastIndex() int {
+	return kci.atr.LastIndex()
+}

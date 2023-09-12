@@ -27,3 +27,7 @@ func (sma smaIndicator) Calculate(index int) big.Decimal {
 
 	return result
 }
+
+func (sma smaIndicator) LastIndex() int {
+	return sma.indicator.LastIndex()
+}

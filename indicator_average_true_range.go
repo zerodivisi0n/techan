@@ -30,3 +30,7 @@ func (atr averageTrueRangeIndicator) Calculate(index int) big.Decimal {
 
 	return sum.Div(big.NewFromInt(atr.window))
 }
+
+func (atr averageTrueRangeIndicator) LastIndex() int {
+	return atr.series.LastIndex()
+}

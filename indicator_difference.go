@@ -19,3 +19,7 @@ func NewDifferenceIndicator(minuend, subtrahend Indicator) Indicator {
 func (di differenceIndicator) Calculate(index int) big.Decimal {
 	return di.minuend.Calculate(index).Sub(di.subtrahend.Calculate(index))
 }
+
+func (di differenceIndicator) LastIndex() int {
+	return di.minuend.LastIndex()
+}
