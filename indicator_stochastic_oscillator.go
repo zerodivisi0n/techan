@@ -18,12 +18,16 @@ type kIndicator struct {
 // given window.
 // https://www.investopedia.com/terms/s/stochasticoscillator.asp
 func NewFastStochasticIndicator(series TimeSeries, timeframe int) Indicator {
-	return kIndicator{
+	return NewFastStochasticIndicatorWithProxy(DefaultProxy, series, timeframe)
+}
+
+func NewFastStochasticIndicatorWithProxy(proxy IndicatorProxy, series TimeSeries, timeframe int) Indicator {
+	return proxy(kIndicator{
 		closePrice: NewClosePriceIndicator(series),
-		minValue:   NewMinimumValueIndicator(NewLowPriceIndicator(series), timeframe),
-		maxValue:   NewMaximumValueIndicator(NewHighPriceIndicator(series), timeframe),
+		minValue:   proxy(NewMinimumValueIndicator(NewLowPriceIndicator(series), timeframe)),
+		maxValue:   proxy(NewMaximumValueIndicator(NewHighPriceIndicator(series), timeframe)),
 		window:     timeframe,
-	}
+	})
 }
 
 func (k kIndicator) Calculate(index int) big.Decimal {
@@ -47,7 +51,7 @@ func (k kIndicator) Key() string {
 }
 
 type dIndicator struct {
-	k      Indicator
+	kSma   Indicator
 	window int
 }
 
@@ -55,17 +59,24 @@ type dIndicator struct {
 // given window.
 // https://www.investopedia.com/terms/s/stochasticoscillator.asp
 func NewSlowStochasticIndicator(k Indicator, window int) Indicator {
-	return dIndicator{k, window}
+	return NewSlowStochasticIndicatorWithProxy(DefaultProxy, k, window)
+}
+
+func NewSlowStochasticIndicatorWithProxy(proxy IndicatorProxy, k Indicator, window int) Indicator {
+	return proxy(dIndicator{
+		kSma:   NewSimpleMovingAverage(k, window),
+		window: window,
+	})
 }
 
 func (d dIndicator) Calculate(index int) big.Decimal {
-	return NewSimpleMovingAverage(d.k, d.window).Calculate(index)
+	return d.kSma.Calculate(index)
 }
 
 func (d dIndicator) LastIndex() int {
-	return d.k.LastIndex()
+	return d.kSma.LastIndex()
 }
 
 func (d dIndicator) Key() string {
-	return fmt.Sprintf("stochd(%d):%s", d.window, d.k.Key())
+	return fmt.Sprintf("stochd(%d):%s", d.window, d.kSma.Key())
 }

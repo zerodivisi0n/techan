@@ -16,10 +16,14 @@ type relativeStrengthIndexIndicator struct {
 // in a given time frame. A more in-depth explanation of relative strength index can be found here:
 // https://www.investopedia.com/terms/r/rsi.asp
 func NewRelativeStrengthIndexIndicator(indicator Indicator, timeframe int) Indicator {
-	return relativeStrengthIndexIndicator{
-		rsIndicator: NewRelativeStrengthIndicator(indicator, timeframe),
+	return NewRelativeStrengthIndexIndicatorWithProxy(DefaultProxy, indicator, timeframe)
+}
+
+func NewRelativeStrengthIndexIndicatorWithProxy(proxy IndicatorProxy, indicator Indicator, timeframe int) Indicator {
+	return proxy(relativeStrengthIndexIndicator{
+		rsIndicator: NewRelativeStrengthIndicatorWithProxy(proxy, indicator, timeframe),
 		oneHundred:  big.NewFromString("100"),
-	}
+	})
 }
 
 func (rsi relativeStrengthIndexIndicator) Calculate(index int) big.Decimal {
@@ -46,11 +50,15 @@ type relativeStrengthIndicator struct {
 // in a given time frame. Relative strength is the average again of up periods during the time frame divided by the
 // average loss of down period during the same time frame
 func NewRelativeStrengthIndicator(indicator Indicator, timeframe int) Indicator {
-	return relativeStrengthIndicator{
-		avgGain: NewMMAIndicator(NewGainIndicator(indicator), timeframe),
-		avgLoss: NewMMAIndicator(NewLossIndicator(indicator), timeframe),
+	return NewRelativeStrengthIndicatorWithProxy(DefaultProxy, indicator, timeframe)
+}
+
+func NewRelativeStrengthIndicatorWithProxy(proxy IndicatorProxy, indicator Indicator, timeframe int) Indicator {
+	return proxy(relativeStrengthIndicator{
+		avgGain: proxy(NewMMAIndicator(proxy(NewGainIndicator(indicator)), timeframe)),
+		avgLoss: proxy(NewMMAIndicator(proxy(NewLossIndicator(indicator)), timeframe)),
 		window:  timeframe,
-	}
+	})
 }
 
 func (rs relativeStrengthIndicator) Calculate(index int) big.Decimal {

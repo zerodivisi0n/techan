@@ -14,10 +14,14 @@ type differenceIndicator struct {
 // NewDifferenceIndicator returns an indicator which returns the difference between one indicator (minuend) and a second
 // indicator (subtrahend).
 func NewDifferenceIndicator(minuend, subtrahend Indicator) Indicator {
-	return differenceIndicator{
+	return NewDifferenceIndicatorWithProxy(DefaultProxy, minuend, subtrahend)
+}
+
+func NewDifferenceIndicatorWithProxy(proxy IndicatorProxy, minuend, subtrahend Indicator) Indicator {
+	return proxy(differenceIndicator{
 		minuend:    minuend,
 		subtrahend: subtrahend,
-	}
+	})
 }
 
 func (di differenceIndicator) Calculate(index int) big.Decimal {
