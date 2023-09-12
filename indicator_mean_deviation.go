@@ -1,9 +1,13 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type meanDeviationIndicator struct {
-	Indicator
+	indicator     Indicator
 	movingAverage Indicator
 	window        int
 }
@@ -12,7 +16,7 @@ type meanDeviationIndicator struct {
 // in a given window. Mean deviation is an average of all values on the base indicator from the mean of that indicator.
 func NewMeanDeviationIndicator(indicator Indicator, window int) Indicator {
 	return meanDeviationIndicator{
-		Indicator:     indicator,
+		indicator:     indicator,
 		movingAverage: NewSimpleMovingAverage(indicator, window),
 		window:        window,
 	}
@@ -28,8 +32,16 @@ func (mdi meanDeviationIndicator) Calculate(index int) big.Decimal {
 	absoluteDeviations := big.NewDecimal(0)
 
 	for i := start; i <= index; i++ {
-		absoluteDeviations = absoluteDeviations.Add(average.Sub(mdi.Indicator.Calculate(i)).Abs())
+		absoluteDeviations = absoluteDeviations.Add(average.Sub(mdi.indicator.Calculate(i)).Abs())
 	}
 
 	return absoluteDeviations.Div(big.NewDecimal(float64(Min(mdi.window, index-start+1))))
+}
+
+func (mdi meanDeviationIndicator) LastIndex() int {
+	return mdi.indicator.LastIndex()
+}
+
+func (mdi meanDeviationIndicator) Key() string {
+	return fmt.Sprintf("mdi(%d):%s", mdi.window, mdi.indicator.Key())
 }

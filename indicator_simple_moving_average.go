@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type smaIndicator struct {
 	indicator Indicator
@@ -30,4 +34,8 @@ func (sma smaIndicator) Calculate(index int) big.Decimal {
 
 func (sma smaIndicator) LastIndex() int {
 	return sma.indicator.LastIndex()
+}
+
+func (sma smaIndicator) Key() string {
+	return fmt.Sprintf("sma:%s", sma.indicator.Key())
 }

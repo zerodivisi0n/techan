@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type relativeVigorIndexIndicator struct {
 	numerator   Indicator
@@ -46,6 +50,10 @@ func (rvii relativeVigorIndexIndicator) LastIndex() int {
 	return rvii.numerator.LastIndex()
 }
 
+func (rvii relativeVigorIndexIndicator) Key() string {
+	return fmt.Sprintf("rvi:%s", rvii.numerator.Key())
+}
+
 type relativeVigorIndexSignalLine struct {
 	relativeVigorIndex Indicator
 }
@@ -73,4 +81,8 @@ func (rvsn relativeVigorIndexSignalLine) Calculate(index int) big.Decimal {
 
 func (rvsn relativeVigorIndexSignalLine) LastIndex() int {
 	return rvsn.relativeVigorIndex.LastIndex()
+}
+
+func (rvsn relativeVigorIndexSignalLine) Key() string {
+	return fmt.Sprintf("rvsl:%s", rvsn.relativeVigorIndex.Key())
 }

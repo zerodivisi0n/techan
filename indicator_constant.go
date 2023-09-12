@@ -1,6 +1,7 @@
 package techan
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/sdcoffey/big"
@@ -20,4 +21,8 @@ func (ci constantIndicator) Calculate(index int) big.Decimal {
 
 func (ci constantIndicator) LastIndex() int {
 	return math.MaxInt
+}
+
+func (ci constantIndicator) Key() string {
+	return fmt.Sprintf("constant(%f)", float64(ci))
 }

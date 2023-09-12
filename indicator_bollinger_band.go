@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type bbandIndicator struct {
 	ma     Indicator
@@ -34,4 +38,8 @@ func (bbi bbandIndicator) Calculate(index int) big.Decimal {
 
 func (bbi bbandIndicator) LastIndex() int {
 	return bbi.ma.LastIndex()
+}
+
+func (bbi bbandIndicator) Key() string {
+	return fmt.Sprintf("bband(%v):%s", bbi.muladd, bbi.ma.Key())
 }

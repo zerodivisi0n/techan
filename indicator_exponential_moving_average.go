@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type emaIndicator struct {
 	indicator   Indicator
@@ -38,6 +42,10 @@ func (ema *emaIndicator) Calculate(index int) big.Decimal {
 
 func (ema emaIndicator) LastIndex() int {
 	return ema.indicator.LastIndex()
+}
+
+func (ema emaIndicator) Key() string {
+	return fmt.Sprintf("ema(%d):%s", ema.window, ema.indicator.Key())
 }
 
 func (ema emaIndicator) cache() resultCache { return ema.resultCache }

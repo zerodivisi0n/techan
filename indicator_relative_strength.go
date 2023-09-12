@@ -1,6 +1,7 @@
 package techan
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/sdcoffey/big"
@@ -29,6 +30,10 @@ func (rsi relativeStrengthIndexIndicator) Calculate(index int) big.Decimal {
 
 func (rsi relativeStrengthIndexIndicator) LastIndex() int {
 	return rsi.rsIndicator.LastIndex()
+}
+
+func (rsi relativeStrengthIndexIndicator) Key() string {
+	return fmt.Sprintf("rsii:%s", rsi.rsIndicator.Key())
 }
 
 type relativeStrengthIndicator struct {
@@ -65,4 +70,8 @@ func (rs relativeStrengthIndicator) Calculate(index int) big.Decimal {
 
 func (rs relativeStrengthIndicator) LastIndex() int {
 	return rs.avgGain.LastIndex()
+}
+
+func (rs relativeStrengthIndicator) Key() string {
+	return fmt.Sprintf("rsi(%d):%s", rs.window, rs.avgGain.Key())
 }

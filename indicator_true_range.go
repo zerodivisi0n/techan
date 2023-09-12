@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type trueRangeIndicator struct {
 	series TimeSeries
@@ -30,4 +34,8 @@ func (tri trueRangeIndicator) Calculate(index int) big.Decimal {
 
 func (tri trueRangeIndicator) LastIndex() int {
 	return tri.series.LastIndex()
+}
+
+func (tri trueRangeIndicator) Key() string {
+	return fmt.Sprintf("tri:%s", tri.series.Key())
 }

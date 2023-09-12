@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 // NewMinimumValueIndicator returns a derivative Indicator which returns the minimum value
 // present in a given window. Use a window value of -1 to include all values in the
@@ -37,4 +41,8 @@ func (mvi minimumValueIndicator) Calculate(index int) big.Decimal {
 
 func (mvi minimumValueIndicator) LastIndex() int {
 	return mvi.indicator.LastIndex()
+}
+
+func (mvi minimumValueIndicator) Key() string {
+	return fmt.Sprintf("min(%d):%s", mvi.window, mvi.indicator.Key())
 }

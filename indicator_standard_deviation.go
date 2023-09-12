@@ -1,6 +1,8 @@
 package techan
 
 import (
+	"fmt"
+
 	"github.com/sdcoffey/big"
 )
 
@@ -23,4 +25,8 @@ func (sdi standardDeviationIndicator) Calculate(index int) big.Decimal {
 
 func (sdi standardDeviationIndicator) LastIndex() int {
 	return sdi.indicator.LastIndex()
+}
+
+func (sdi standardDeviationIndicator) Key() string {
+	return fmt.Sprintf("std:%s", sdi.indicator.Key())
 }

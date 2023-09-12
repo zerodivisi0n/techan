@@ -10,4 +10,6 @@ type Indicator interface {
 	Calculate(int) big.Decimal
 	// LastIndex returns last index of underlying time series
 	LastIndex() int
+	// Key returns unique cache key for given indicator
+	Key() string
 }

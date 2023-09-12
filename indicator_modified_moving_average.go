@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type modifiedMovingAverageIndicator struct {
 	indicator   Indicator
@@ -37,6 +41,10 @@ func (mma *modifiedMovingAverageIndicator) Calculate(index int) big.Decimal {
 
 func (mma modifiedMovingAverageIndicator) LastIndex() int {
 	return mma.indicator.LastIndex()
+}
+
+func (mma modifiedMovingAverageIndicator) Key() string {
+	return fmt.Sprintf("mma(%d):%s", mma.window, mma.indicator.Key())
 }
 
 func (mma modifiedMovingAverageIndicator) cache() resultCache {

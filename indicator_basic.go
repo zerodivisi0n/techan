@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type volumeIndicator struct {
 	TimeSeries
@@ -15,6 +19,10 @@ func (vi volumeIndicator) Calculate(index int) big.Decimal {
 	return vi.Volume(index)
 }
 
+func (vi volumeIndicator) Key() string {
+	return fmt.Sprintf("volume(%s)", vi.TimeSeries.Key())
+}
+
 type closePriceIndicator struct {
 	TimeSeries
 }
@@ -26,6 +34,10 @@ func NewClosePriceIndicator(series TimeSeries) Indicator {
 
 func (cpi closePriceIndicator) Calculate(index int) big.Decimal {
 	return cpi.ClosePrice(index)
+}
+
+func (cpi closePriceIndicator) Key() string {
+	return fmt.Sprintf("close(%s)", cpi.TimeSeries.Key())
 }
 
 type highPriceIndicator struct {
@@ -43,6 +55,10 @@ func (hpi highPriceIndicator) Calculate(index int) big.Decimal {
 	return hpi.HighPrice(index)
 }
 
+func (hpi highPriceIndicator) Key() string {
+	return fmt.Sprintf("high(%s)", hpi.TimeSeries.Key())
+}
+
 type lowPriceIndicator struct {
 	TimeSeries
 }
@@ -56,6 +72,10 @@ func NewLowPriceIndicator(series TimeSeries) Indicator {
 
 func (lpi lowPriceIndicator) Calculate(index int) big.Decimal {
 	return lpi.LowPrice(index)
+}
+
+func (lpi lowPriceIndicator) Key() string {
+	return fmt.Sprintf("low(%s)", lpi.TimeSeries.Key())
 }
 
 type openPriceIndicator struct {
@@ -73,6 +93,10 @@ func (opi openPriceIndicator) Calculate(index int) big.Decimal {
 	return opi.OpenPrice(index)
 }
 
+func (opi openPriceIndicator) Key() string {
+	return fmt.Sprintf("open(%s)", opi.TimeSeries.Key())
+}
+
 type typicalPriceIndicator struct {
 	TimeSeries
 }
@@ -86,4 +110,8 @@ func NewTypicalPriceIndicator(series TimeSeries) Indicator {
 func (tpi typicalPriceIndicator) Calculate(index int) big.Decimal {
 	numerator := tpi.HighPrice(index).Add(tpi.LowPrice(index)).Add(tpi.ClosePrice(index))
 	return numerator.Div(big.NewFromString("3"))
+}
+
+func (tpi typicalPriceIndicator) Key() string {
+	return fmt.Sprintf("typical(%s)", tpi.TimeSeries.Key())
 }

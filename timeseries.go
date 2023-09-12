@@ -14,6 +14,7 @@ type TimeSeries interface {
 	LowPrice(index int) big.Decimal
 	Volume(index int) big.Decimal
 	LastIndex() int
+	Key() string
 }
 
 // BaseTimeSeries implements TimeSeries using in-memory array of candles
@@ -78,4 +79,12 @@ func (ts *BaseTimeSeries) Volume(index int) big.Decimal {
 // LastIndex will return the index of the last candle in this series
 func (ts *BaseTimeSeries) LastIndex() int {
 	return len(ts.Candles) - 1
+}
+
+// Key returns description of this timeseries (e.g. candle interval)
+func (ts *BaseTimeSeries) Key() string {
+	if len(ts.Candles) == 0 {
+		return "unknown"
+	}
+	return ts.Candles[0].Period.End.Sub(ts.Candles[0].Period.Start).String()
 }

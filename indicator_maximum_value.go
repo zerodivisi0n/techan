@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 // NewMaximumValueIndicator returns a derivative Indicator which returns the maximum value
 // present in a given window. Use a window value of -1 to include all values in the
@@ -37,4 +41,8 @@ func (mvi maximumValueIndicator) Calculate(index int) big.Decimal {
 
 func (mvi maximumValueIndicator) LastIndex() int {
 	return mvi.indicator.LastIndex()
+}
+
+func (mvi maximumValueIndicator) Key() string {
+	return fmt.Sprintf("max(%d):%s", mvi.window, mvi.indicator.Key())
 }

@@ -1,6 +1,7 @@
 package techan
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/sdcoffey/big"
@@ -41,6 +42,10 @@ func (k kIndicator) LastIndex() int {
 	return k.closePrice.LastIndex()
 }
 
+func (k kIndicator) Key() string {
+	return fmt.Sprintf("stochk(%d):%s", k.window, k.closePrice.Key())
+}
+
 type dIndicator struct {
 	k      Indicator
 	window int
@@ -59,4 +64,8 @@ func (d dIndicator) Calculate(index int) big.Decimal {
 
 func (d dIndicator) LastIndex() int {
 	return d.k.LastIndex()
+}
+
+func (d dIndicator) Key() string {
+	return fmt.Sprintf("stochd(%d):%s", d.window, d.k.Key())
 }

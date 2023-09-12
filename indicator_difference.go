@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type differenceIndicator struct {
 	minuend    Indicator
@@ -22,4 +26,9 @@ func (di differenceIndicator) Calculate(index int) big.Decimal {
 
 func (di differenceIndicator) LastIndex() int {
 	return di.minuend.LastIndex()
+}
+
+func (di differenceIndicator) Key() string {
+	return fmt.Sprintf("difference(%s,%s)",
+		di.minuend.Key(), di.subtrahend.Key())
 }

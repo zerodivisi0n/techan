@@ -1,10 +1,14 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type averageTrueRangeIndicator struct {
-	series TimeSeries
-	window int
+	indicator Indicator
+	window    int
 }
 
 // NewAverageTrueRangeIndicator returns a base indicator that calculates the average true range of the
@@ -12,8 +16,8 @@ type averageTrueRangeIndicator struct {
 // https://www.investopedia.com/terms/a/atr.asp
 func NewAverageTrueRangeIndicator(series TimeSeries, window int) Indicator {
 	return averageTrueRangeIndicator{
-		series: series,
-		window: window,
+		indicator: NewTrueRangeIndicator(series),
+		window:    window,
 	}
 }
 
@@ -25,12 +29,16 @@ func (atr averageTrueRangeIndicator) Calculate(index int) big.Decimal {
 	sum := big.ZERO
 
 	for i := index; i > index-atr.window; i-- {
-		sum = sum.Add(NewTrueRangeIndicator(atr.series).Calculate(i))
+		sum = sum.Add(atr.indicator.Calculate(i))
 	}
 
 	return sum.Div(big.NewFromInt(atr.window))
 }
 
 func (atr averageTrueRangeIndicator) LastIndex() int {
-	return atr.series.LastIndex()
+	return atr.indicator.LastIndex()
+}
+
+func (atr averageTrueRangeIndicator) Key() string {
+	return fmt.Sprintf("atr(%d):%s", atr.window, atr.indicator.Key())
 }

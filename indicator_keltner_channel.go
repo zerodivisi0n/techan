@@ -1,6 +1,8 @@
 package techan
 
 import (
+	"fmt"
+
 	"github.com/sdcoffey/big"
 )
 
@@ -45,4 +47,8 @@ func (kci keltnerChannelIndicator) Calculate(index int) big.Decimal {
 
 func (kci keltnerChannelIndicator) LastIndex() int {
 	return kci.atr.LastIndex()
+}
+
+func (kci keltnerChannelIndicator) Key() string {
+	return fmt.Sprintf("kci(%d,%v):%s", kci.window, kci.mul, kci.atr.Key())
 }

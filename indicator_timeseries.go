@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type indicatorTimeSeries struct {
 	ts         TimeSeries
@@ -59,4 +63,9 @@ func (its indicatorTimeSeries) Volume(index int) big.Decimal {
 
 func (its indicatorTimeSeries) LastIndex() int {
 	return its.ts.LastIndex()
+}
+
+func (its indicatorTimeSeries) Key() string {
+	return fmt.Sprintf("timeseries(%s):%s",
+		its.closePrice.Key(), its.ts.Key())
 }

@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type averageIndicator struct {
 	indicator Indicator
@@ -31,4 +35,8 @@ func (ai averageIndicator) Calculate(index int) big.Decimal {
 
 func (ai averageIndicator) LastIndex() int {
 	return ai.indicator.LastIndex()
+}
+
+func (ai averageIndicator) Key() string {
+	return fmt.Sprintf("avg(%d):%s", ai.window, ai.indicator.Key())
 }

@@ -1,6 +1,7 @@
 package techan
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/sdcoffey/big"
@@ -28,6 +29,11 @@ func (ai *aroonIndicator) Calculate(index int) big.Decimal {
 
 func (ai aroonIndicator) LastIndex() int {
 	return ai.indicator.LastIndex()
+}
+
+func (ai aroonIndicator) Key() string {
+	return fmt.Sprintf("aroon(%d,%v):%s",
+		ai.window, ai.direction, ai.indicator.Key())
 }
 
 func (ai aroonIndicator) findLowIndex(index int) int {

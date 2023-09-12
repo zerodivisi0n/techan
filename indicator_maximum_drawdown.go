@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 // NewMaximumDrawdownIndicator returns a derivative Indicator which returns the maximum
 // drawdown of the underlying indicator over a window. Maximum drawdown is defined as the
@@ -29,4 +33,8 @@ func (mdi maximumDrawdownIndicator) Calculate(index int) big.Decimal {
 
 func (mdi maximumDrawdownIndicator) LastIndex() int {
 	return mdi.indicator.LastIndex()
+}
+
+func (mdi maximumDrawdownIndicator) Key() string {
+	return fmt.Sprintf("mdi(%d):%s", mdi.window, mdi.indicator.Key())
 }

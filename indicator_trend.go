@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 type trendLineIndicator struct {
 	indicator Indicator
@@ -34,6 +38,10 @@ func (tli trendLineIndicator) Calculate(index int) big.Decimal {
 
 func (tli trendLineIndicator) LastIndex() int {
 	return tli.indicator.LastIndex()
+}
+
+func (tli trendLineIndicator) Key() string {
+	return fmt.Sprintf("tl(%d):%s", tli.window, tli.indicator.Key())
 }
 
 func sumX(decimals []big.Decimal) (s big.Decimal) {

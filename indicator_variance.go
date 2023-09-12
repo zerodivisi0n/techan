@@ -1,6 +1,10 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"fmt"
+
+	"github.com/sdcoffey/big"
+)
 
 // NewVarianceIndicator provides a way to find the variance in a base indicator, where variances is the sum of squared
 // deviations from the mean at any given index in the time series.
@@ -34,4 +38,8 @@ func (vi varianceIndicator) Calculate(index int) big.Decimal {
 
 func (vi varianceIndicator) LastIndex() int {
 	return vi.indicator.LastIndex()
+}
+
+func (vi varianceIndicator) Key() string {
+	return fmt.Sprintf("var:%s", vi.indicator.Key())
 }
